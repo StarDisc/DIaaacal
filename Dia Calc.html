@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diamond Calculator</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; background-color: #f0f2f5; color: #333; }
+        .container { max-width: 400px; margin: auto; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+        
+        h2 { text-align: center; color: #0088cc; margin-bottom: 25px; font-size: 1.5rem; }
+        
+        .field-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 600; margin-bottom: 8px; color: #555; }
+        
+        select, input { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 10px; box-sizing: border-box; font-size: 1rem; transition: border-color 0.3s; }
+        select:focus, input:focus { border-color: #0088cc; outline: none; }
+        
+        button { width: 100%; padding: 14px; background: #0088cc; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1rem; margin-top: 10px; }
+        button:active { transform: scale(0.98); }
+        
+        .result { margin-top: 25px; padding: 20px; background: #f0f9ff; border: 1px dashed #0088cc; border-radius: 12px; text-align: center; font-size: 1.25rem; color: #005580; }
+        .formula-note { font-size: 0.8rem; color: #888; text-align: center; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Diamond Calculator</h2>
+
+    <div class="field-group">
+        <label for="userInput">Enter Number:</label>
+        <input type="number" id="userInput" placeholder="Type value here...">
+    </div>
+
+    <div class="field-group">
+        <label for="package">Select Package:</label>
+        <select id="package">
+            <option value="39">Diamond 55 (39 coins)</option>
+            <option value="116.9">Diamond 165 (116.9 coins)</option>
+            <option value="187.5">Diamond 275 (187.5 coins)</option>
+            <option value="76">Weekly Pass (76 coins)</option>
+            <option value="39">Weekly Value Bundle (39 coins)</option>
+            <option value="196">Monthly Value Bundle (196 coins)</option>
+            <option value="61.5">Package Diamond 86 (61.5 coins)</option>
+            <option value="122">Package Diamond 172 (122 coins)</option>
+            <option value="176.7">Package Diamond 257 (176.7 coins)</option>
+        </select>
+    </div>
+
+    <button onclick="calculate()">Calculate Smile Coins</button>
+
+    <div id="result" class="result" style="display:none;"></div>
+    
+</div>
+
+<script>
+    function calculate() {
+        const input = parseFloat(document.getElementById('userInput').value);
+        const coins = parseFloat(document.getElementById('package').value);
+        const resultDiv = document.getElementById('result');
+        
+        if (isNaN(input) || input <= 0) {
+            alert("Please enter a valid number greater than 0");
+            return;
+        }
+
+        const total = (input / 300) * coins;
+
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = `Result: <strong>${total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong> Kyats`;
+        
+        // Haptic feedback for Telegram users
+        if (window.Telegram && window.Telegram.WebApp) {
+            window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
+        }
+    }
+</script>
+
+</body>
+</html>
